@@ -181,12 +181,6 @@ public class DonutProgress extends View
                     .getColor(R.styleable.DonutProgress_donut_text_color, default_text_color);
             textSize = attributes
                     .getDimension(R.styleable.DonutProgress_donut_text_size, default_text_size);
-            innerBottomTextSize = attributes
-                    .getDimension(R.styleable.DonutProgress_donut_inner_bottom_text_size, default_inner_bottom_text_size);
-            innerBottomTextColor = attributes
-                    .getColor(R.styleable.DonutProgress_donut_inner_bottom_text_color, default_inner_bottom_text_color);
-            innerBottomText = attributes
-                    .getString(R.styleable.DonutProgress_donut_inner_bottom_text);
         }
 
         innerBottomTextSize = attributes

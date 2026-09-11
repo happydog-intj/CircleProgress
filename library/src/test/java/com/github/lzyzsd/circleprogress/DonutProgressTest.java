@@ -222,6 +222,17 @@ public class DonutProgressTest {
         assertEquals(20.0f, view.getInnerBottomTextSize(), 0.01f);
     }
 
+    @Test
+    public void innerBottomTextDefaults_areCorrectRegardlessOfShowText() {
+        // Inner bottom text attributes are read unconditionally (not gated by showText).
+        // Default constructed view (showText=true) should have correct defaults.
+        float expectedSize = Utils.sp2px(
+                RuntimeEnvironment.getApplication().getResources(), 18);
+        assertEquals(expectedSize, view.getInnerBottomTextSize(), 0.01f);
+        assertEquals(Color.rgb(66, 145, 241), view.getInnerBottomTextColor());
+        assertNull(view.getInnerBottomText());
+    }
+
     // --- Starting degree ---
 
     @Test
