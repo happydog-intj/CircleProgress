@@ -257,7 +257,7 @@ public class CircleProgress extends View {
         String text = getDrawText();
         if (!TextUtils.isEmpty(text)) {
             float textHeight = textPaint.descent() + textPaint.ascent();
-            canvas.drawText(text, (getWidth() - textPaint.measureText(text)) / 2.0f, (getWidth() - textHeight) / 2.0f, textPaint);
+            canvas.drawText(text, (getWidth() - textPaint.measureText(text)) / 2.0f, (getHeight() - textHeight) / 2.0f, textPaint);
         }
     }
 
