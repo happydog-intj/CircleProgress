@@ -17,9 +17,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
 /**
  * Created by bruce on 11/6/14.
@@ -187,8 +184,7 @@ public class ArcProgress extends View {
     }
 
     public void setProgress(float progress) {
-        DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
-        this.progress = Float.parseFloat(new DecimalFormat("#.##", dfs).format(progress));
+        this.progress = Math.round(progress * 100f) / 100f;
 
         if (this.progress > getMax()) {
             this.progress %= getMax();

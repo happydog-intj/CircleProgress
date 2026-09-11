@@ -85,6 +85,21 @@ public class ArcProgressTest {
     }
 
     @Test
+    public void setProgress_noLocaleDependent_noCrash() {
+        // Issue #141/#147: DecimalFormat under Persian/Arabic locale produced
+        // non-ASCII digits ("۷۰") causing NumberFormatException.
+        // Pure math rounding avoids any locale dependency.
+        java.util.Locale original = java.util.Locale.getDefault();
+        try {
+            java.util.Locale.setDefault(new java.util.Locale("fa", "IR"));
+            view.setProgress(70.555f);
+            assertEquals(70.56f, view.getProgress(), 0.01f);
+        } finally {
+            java.util.Locale.setDefault(original);
+        }
+    }
+
+    @Test
     public void setProgress_exceedingMax_wrapsAround() {
         view.setMax(100);
         view.setProgress(150);
