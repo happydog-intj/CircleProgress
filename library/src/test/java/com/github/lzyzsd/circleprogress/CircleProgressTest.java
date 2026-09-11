@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -290,5 +291,39 @@ public class CircleProgressTest {
         view.measure(widthSpec, heightSpec);
         assertTrue(view.getMeasuredWidth() > 0);
         assertTrue(view.getMeasuredHeight() > 0);
+    }
+
+    // --- Accessibility ---
+
+    @Test
+    public void accessibility_reportsProgressBarClass() {
+        AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain();
+        view.onInitializeAccessibilityNodeInfo(info);
+        assertEquals("android.widget.ProgressBar", info.getClassName().toString());
+        info.recycle();
+    }
+
+    @Test
+    public void accessibility_reportsRangeInfo() {
+        view.setMax(200);
+        view.setProgress(75);
+        AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain();
+        view.onInitializeAccessibilityNodeInfo(info);
+        AccessibilityNodeInfo.RangeInfo rangeInfo = info.getRangeInfo();
+        assertNotNull(rangeInfo);
+        assertEquals(0f, rangeInfo.getMin(), 0.01f);
+        assertEquals(200f, rangeInfo.getMax(), 0.01f);
+        assertEquals(75f, rangeInfo.getCurrent(), 0.01f);
+        info.recycle();
+    }
+
+    @Test
+    public void accessibility_reportsContentDescription() {
+        view.setMax(100);
+        view.setProgress(50);
+        AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain();
+        view.onInitializeAccessibilityNodeInfo(info);
+        assertEquals("Progress: 50 of 100", info.getContentDescription().toString());
+        info.recycle();
     }
 }

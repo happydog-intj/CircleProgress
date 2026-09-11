@@ -13,6 +13,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 /**
  * Used to display "Donut Progress" (circular progress).
@@ -515,6 +516,17 @@ public class DonutProgress extends View
             canvas.drawBitmap(bitmap, (getWidth() - bitmap
                     .getWidth()) / 2.0f, (getHeight() - bitmap.getHeight()) / 2.0f, null);
         }
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info)
+    {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName("android.widget.ProgressBar");
+        info.setContentDescription("Progress: " + (int) getProgress() + " of " + getMax());
+        AccessibilityNodeInfo.RangeInfo rangeInfo = AccessibilityNodeInfo.RangeInfo.obtain(
+                AccessibilityNodeInfo.RangeInfo.RANGE_TYPE_FLOAT, 0, getMax(), getProgress());
+        info.setRangeInfo(rangeInfo);
     }
 
     @Override
