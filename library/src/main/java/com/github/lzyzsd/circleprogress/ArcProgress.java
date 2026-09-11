@@ -1,5 +1,6 @@
 package com.github.lzyzsd.circleprogress;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -36,7 +37,8 @@ public class ArcProgress extends View {
     private String text;
     private float textSize;
     private int textColor;
-    private int currentProgress = 0;
+    private float animatedProgress = 0;
+    private ValueAnimator progressAnimator;
     private float progress = 0;
     private int max;
     private int finishedStrokeColor;
@@ -190,8 +192,21 @@ public class ArcProgress extends View {
         if (this.progress > getMax()) {
             this.progress %= getMax();
         }
-        currentProgress = 0;
-        invalidate();
+        startProgressAnimation();
+    }
+
+    private void startProgressAnimation() {
+        if (progressAnimator != null) {
+            progressAnimator.cancel();
+        }
+        progressAnimator = ValueAnimator.ofFloat(animatedProgress, progress);
+        int duration = (int) (Math.abs(progress - animatedProgress) / getMax() * 1000);
+        progressAnimator.setDuration(Math.max(duration, 100));
+        progressAnimator.addUpdateListener(animation -> {
+            animatedProgress = (float) animation.getAnimatedValue();
+            invalidate();
+        });
+        progressAnimator.start();
     }
 
 
@@ -335,7 +350,7 @@ public class ArcProgress extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         float startAngle = 270 - arcAngle / 2f;
-        float finishedSweepAngle = currentProgress / (float) getMax() * arcAngle;
+        float finishedSweepAngle = animatedProgress / (float) getMax() * arcAngle;
         float finishedStartAngle = startAngle;
         if (progress == 0) finishedStartAngle = 0.01f;
         paint.setColor(unfinishedStrokeColor);
@@ -343,7 +358,7 @@ public class ArcProgress extends View {
         paint.setColor(finishedStrokeColor);
         canvas.drawArc(rectF, finishedStartAngle, finishedSweepAngle, false, paint);
 
-        String text = String.valueOf(currentProgress);
+        String text = String.valueOf((int) animatedProgress);
         if (typeFace != null)
             textPaint.setTypeface(typeFace);
 
@@ -369,9 +384,13 @@ public class ArcProgress extends View {
             float bottomTextBaseline = getHeight() - arcBottomHeight - (textPaint.descent() + textPaint.ascent()) / 2;
             canvas.drawText(getBottomText(), (getWidth() - textPaint.measureText(getBottomText())) / 2.0f, bottomTextBaseline, textPaint);
         }
-        if (currentProgress < progress) {
-            currentProgress++;
-            invalidate();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (progressAnimator != null) {
+            progressAnimator.cancel();
         }
     }
 
@@ -407,7 +426,9 @@ public class ArcProgress extends View {
             textSize = bundle.getFloat(INSTANCE_TEXT_SIZE);
             textColor = bundle.getInt(INSTANCE_TEXT_COLOR);
             setMax(bundle.getInt(INSTANCE_MAX));
-            setProgress(bundle.getFloat(INSTANCE_PROGRESS));
+            float restoredProgress = bundle.getFloat(INSTANCE_PROGRESS);
+            this.progress = restoredProgress;
+            this.animatedProgress = restoredProgress;
             finishedStrokeColor = bundle.getInt(INSTANCE_FINISHED_STROKE_COLOR);
             unfinishedStrokeColor = bundle.getInt(INSTANCE_UNFINISHED_STROKE_COLOR);
             arcAngle = bundle.getFloat(INSTANCE_ARC_ANGLE);

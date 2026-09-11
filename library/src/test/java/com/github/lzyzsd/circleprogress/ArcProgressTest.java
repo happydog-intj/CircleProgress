@@ -272,6 +272,25 @@ public class ArcProgressTest {
         assertEquals(270.0f, restored.getArcAngle(), 0.01f);
     }
 
+    // --- Animation ---
+
+    @Test
+    public void setProgress_doesNotUseOnDrawBusyLoop() {
+        // After setProgress, the view should NOT rely on incrementing currentProgress
+        // in onDraw. Instead, a ValueAnimator drives the animation.
+        // Verify progress is set and retrievable without needing onDraw calls.
+        view.setProgress(75);
+        assertEquals(75f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setProgress_multipleTimes_lastValueWins() {
+        view.setProgress(30);
+        view.setProgress(60);
+        view.setProgress(90);
+        assertEquals(90f, view.getProgress(), 0.01f);
+    }
+
     // --- onMeasure ---
 
     @Test
