@@ -7,15 +7,15 @@ and CleanMaster
 
 ![CleanMaster](http://i.stack.imgur.com/sZP5t.png)
 
-###Demo
+### Demo
 
 ![CircleProgress](demos/circle_progress.png)
 
-###Demo download [link](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/example.apk)
+### Demo download [link](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/example.apk)
 
-###3 kinds of progress view are provided, DonutProgress (supports inner drawables and VectorDrawables, CircleProgress, ArcProgress
+### 3 kinds of progress view are provided, DonutProgress (supports inner drawables and VectorDrawables), CircleProgress, ArcProgress
 
-##Usage
+## Usage
 
 please use jitpack
 
@@ -28,7 +28,7 @@ please use jitpack
 	}
 ```
 
-###Gradle
+### Gradle
 
 ```groovy
 dependencies {
@@ -36,7 +36,7 @@ dependencies {
 }
 ```
 
-###Notice
+### Notice
 
 please always use same width and height for progress views
 
@@ -157,7 +157,7 @@ donut_show_text
 
 show or hide bottom text
 
-###Build
+### Build
 
 run `./gradlew assembleDebug` (Mac/Linux)
 
@@ -165,7 +165,7 @@ or
 
 run `gradlew.bat assembleDebug` (Windows)
 
-###Changes
+### Changes
 
 version 1.1.0: add bottom text to DonutProgressView
 
