@@ -211,6 +211,26 @@ public class ArcProgressTest {
     }
 
     @Test
+    public void defaultStartingDegree_isZero() {
+        assertEquals(0, view.getStartingDegree());
+    }
+
+    @Test
+    public void setStartingDegree_updatesValue() {
+        view.setStartingDegree(90);
+        assertEquals(90, view.getStartingDegree());
+    }
+
+    @Test
+    public void saveAndRestore_startingDegree_isPreserved() {
+        view.setStartingDegree(45);
+        Parcelable state = view.onSaveInstanceState();
+        ArcProgress restored = new ArcProgress(RuntimeEnvironment.getApplication());
+        restored.onRestoreInstanceState(state);
+        assertEquals(45, restored.getStartingDegree());
+    }
+
+    @Test
     public void setSuffixText_updatesValue() {
         view.setSuffixText("pts");
         assertEquals("pts", view.getSuffixText());
@@ -251,6 +271,7 @@ public class ArcProgressTest {
         view.setFinishedStrokeColor(Color.CYAN);
         view.setUnfinishedStrokeColor(Color.DKGRAY);
         view.setArcAngle(270.0f);
+        view.setStartingDegree(30);
         view.setSuffixText("pts");
         view.setBottomText("Score");
         view.setBottomTextSize(16.0f);
@@ -270,6 +291,7 @@ public class ArcProgressTest {
         assertEquals(Color.CYAN, restored.getFinishedStrokeColor());
         assertEquals(Color.DKGRAY, restored.getUnfinishedStrokeColor());
         assertEquals(270.0f, restored.getArcAngle(), 0.01f);
+        assertEquals(30, restored.getStartingDegree());
         assertEquals("pts", restored.getSuffixText());
         assertEquals("Score", restored.getBottomText());
         assertEquals(16.0f, restored.getBottomTextSize(), 0.01f);
