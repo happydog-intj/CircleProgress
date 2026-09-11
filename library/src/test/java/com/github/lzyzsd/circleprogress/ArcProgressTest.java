@@ -201,6 +201,21 @@ public class ArcProgressTest {
     }
 
     @Test
+    public void multipleSetterCalls_workWithoutInitPaintersRebuild() {
+        view.setTextColor(Color.BLUE);
+        view.setTextColor(Color.YELLOW);
+        assertEquals(Color.YELLOW, view.getTextColor());
+
+        view.setStrokeWidth(5.0f);
+        view.setStrokeWidth(10.0f);
+        assertEquals(10.0f, view.getStrokeWidth(), 0.01f);
+
+        view.setFinishedStrokeColor(Color.RED);
+        view.setFinishedStrokeColor(Color.GREEN);
+        assertEquals(Color.GREEN, view.getFinishedStrokeColor());
+    }
+
+    @Test
     public void setSuffixTextPadding_updatesValue() {
         view.setSuffixTextPadding(8.0f);
         assertEquals(8.0f, view.getSuffixTextPadding(), 0.01f);

@@ -190,6 +190,21 @@ public class CircleProgressTest {
         assertEquals(0f, view.getProgressPercentage(), 0.001f);
     }
 
+    @Test
+    public void multipleSetterCalls_workWithoutInitPaintersRebuild() {
+        view.setTextColor(Color.BLUE);
+        view.setTextColor(Color.YELLOW);
+        assertEquals(Color.YELLOW, view.getTextColor());
+
+        view.setTextSize(20.0f);
+        view.setTextSize(30.0f);
+        assertEquals(30.0f, view.getTextSize(), 0.01f);
+
+        view.setFinishedColor(Color.RED);
+        view.setFinishedColor(Color.GREEN);
+        assertEquals(Color.GREEN, view.getFinishedColor());
+    }
+
     // --- State save/restore ---
 
     @Test

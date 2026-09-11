@@ -208,12 +208,6 @@ public class DonutProgress extends View
         initInnerBitmap(getContext());
     }
 
-    @Override
-    public void invalidate()
-    {
-        initPainters();
-        super.invalidate();
-    }
 
     public boolean isShowText()
     {
@@ -233,6 +227,7 @@ public class DonutProgress extends View
     public void setFinishedStrokeWidth(float finishedStrokeWidth)
     {
         this.finishedStrokeWidth = finishedStrokeWidth;
+        finishedPaint.setStrokeWidth(finishedStrokeWidth);
         this.invalidate();
     }
 
@@ -244,6 +239,7 @@ public class DonutProgress extends View
     public void setUnfinishedStrokeWidth(float unfinishedStrokeWidth)
     {
         this.unfinishedStrokeWidth = unfinishedStrokeWidth;
+        unfinishedPaint.setStrokeWidth(unfinishedStrokeWidth);
         this.invalidate();
     }
 
@@ -289,6 +285,7 @@ public class DonutProgress extends View
     public void setTextSize(float textSize)
     {
         this.textSize = textSize;
+        if (textPaint != null) textPaint.setTextSize(textSize);
         this.invalidate();
     }
 
@@ -300,6 +297,7 @@ public class DonutProgress extends View
     public void setTextColor(int textColor)
     {
         this.textColor = textColor;
+        if (textPaint != null) textPaint.setColor(textColor);
         this.invalidate();
     }
 
@@ -311,6 +309,7 @@ public class DonutProgress extends View
     public void setFinishedStrokeColor(int finishedStrokeColor)
     {
         this.finishedStrokeColor = finishedStrokeColor;
+        finishedPaint.setColor(finishedStrokeColor);
         this.invalidate();
     }
 
@@ -322,6 +321,7 @@ public class DonutProgress extends View
     public void setUnfinishedStrokeColor(int unfinishedStrokeColor)
     {
         this.unfinishedStrokeColor = unfinishedStrokeColor;
+        unfinishedPaint.setColor(unfinishedStrokeColor);
         this.invalidate();
     }
 
@@ -366,6 +366,7 @@ public class DonutProgress extends View
     public void setInnerBackgroundColor(int innerBackgroundColor)
     {
         this.innerBackgroundColor = innerBackgroundColor;
+        innerCirclePaint.setColor(innerBackgroundColor);
         this.invalidate();
     }
 
@@ -390,6 +391,7 @@ public class DonutProgress extends View
     public void setInnerBottomTextSize(float innerBottomTextSize)
     {
         this.innerBottomTextSize = innerBottomTextSize;
+        if (innerBottomTextPaint != null) innerBottomTextPaint.setTextSize(innerBottomTextSize);
         this.invalidate();
     }
 
@@ -401,6 +403,7 @@ public class DonutProgress extends View
     public void setInnerBottomTextColor(int innerBottomTextColor)
     {
         this.innerBottomTextColor = innerBottomTextColor;
+        if (innerBottomTextPaint != null) innerBottomTextPaint.setColor(innerBottomTextColor);
         this.invalidate();
     }
 

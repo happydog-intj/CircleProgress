@@ -271,6 +271,23 @@ public class DonutProgressTest {
     // --- State save/restore ---
 
     @Test
+    public void multipleSetterCalls_workWithoutInitPaintersRebuild() {
+        // Verify that calling setters multiple times works correctly
+        // even though invalidate() no longer rebuilds paints from scratch.
+        view.setFinishedStrokeColor(Color.RED);
+        view.setFinishedStrokeColor(Color.GREEN);
+        assertEquals(Color.GREEN, view.getFinishedStrokeColor());
+
+        view.setTextColor(Color.BLUE);
+        view.setTextColor(Color.YELLOW);
+        assertEquals(Color.YELLOW, view.getTextColor());
+
+        view.setFinishedStrokeWidth(5.0f);
+        view.setFinishedStrokeWidth(10.0f);
+        assertEquals(10.0f, view.getFinishedStrokeWidth(), 0.01f);
+    }
+
+    @Test
     public void saveAndRestoreInstanceState_preservesAllFields() {
         view.setProgress(80);
         view.setMax(200);

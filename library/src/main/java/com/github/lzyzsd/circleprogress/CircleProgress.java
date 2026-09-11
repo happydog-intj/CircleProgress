@@ -96,12 +96,6 @@ public class CircleProgress extends View {
         paint.setAntiAlias(true);
     }
 
-    @Override
-    public void invalidate() {
-        initPainters();
-        super.invalidate();
-    }
-
     public int getProgress() { return progress; }
 
     public void setProgress(int progress) {
@@ -148,6 +142,7 @@ public class CircleProgress extends View {
 
     public void setTextSize(float textSize) {
         this.textSize = textSize;
+        textPaint.setTextSize(textSize);
         this.invalidate();
     }
 
@@ -157,6 +152,7 @@ public class CircleProgress extends View {
 
     public void setTextColor(int textColor) {
         this.textColor = textColor;
+        textPaint.setColor(textColor);
         this.invalidate();
     }
 

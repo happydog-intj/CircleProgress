@@ -151,18 +151,13 @@ public class ArcProgress extends View {
         paint.setStrokeCap(Paint.Cap.ROUND);
     }
 
-    @Override
-    public void invalidate() {
-        initPainters();
-        super.invalidate();
-    }
-
     public float getStrokeWidth() {
         return strokeWidth;
     }
 
     public void setStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;
+        paint.setStrokeWidth(strokeWidth);
         this.invalidate();
     }
 
