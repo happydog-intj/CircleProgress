@@ -518,7 +518,6 @@ public class DonutProgress extends View
         bundle.putInt(INSTANCE_TEXT_COLOR, getTextColor());
         bundle.putFloat(INSTANCE_TEXT_SIZE, getTextSize());
         bundle.putFloat(INSTANCE_INNER_BOTTOM_TEXT_SIZE, getInnerBottomTextSize());
-        bundle.putFloat(INSTANCE_INNER_BOTTOM_TEXT_COLOR, getInnerBottomTextColor());
         bundle.putString(INSTANCE_INNER_BOTTOM_TEXT, getInnerBottomText());
         bundle.putInt(INSTANCE_INNER_BOTTOM_TEXT_COLOR, getInnerBottomTextColor());
         bundle.putInt(INSTANCE_FINISHED_STROKE_COLOR, getFinishedStrokeColor());

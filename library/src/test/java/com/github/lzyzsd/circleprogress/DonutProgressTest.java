@@ -250,6 +250,19 @@ public class DonutProgressTest {
     }
 
     @Test
+    public void saveAndRestore_innerBottomTextColor_usesIntNotFloat() {
+        // Regression: onSaveInstanceState previously saved color as putFloat
+        // then putInt, causing the float entry to pollute the bundle.
+        view.setInnerBottomTextColor(Color.RED);
+
+        Parcelable state = view.onSaveInstanceState();
+        DonutProgress restored = new DonutProgress(RuntimeEnvironment.getApplication());
+        restored.onRestoreInstanceState(state);
+
+        assertEquals(Color.RED, restored.getInnerBottomTextColor());
+    }
+
+    @Test
     public void setSuffixText_updatesValue() {
         view.setSuffixText(" km");
         assertEquals(" km", view.getSuffixText());
