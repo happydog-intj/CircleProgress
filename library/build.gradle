@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
-version = "1.2.4"
+version = "2.0.0"
+group = "com.github.happydog-intj"
 
 android {
     namespace 'com.github.lzyzsd.circleprogress'
@@ -30,6 +32,11 @@ android {
             includeAndroidResources = true
         }
     }
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
@@ -38,4 +45,39 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.14.1'
     testImplementation 'androidx.test:core:1.6.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = project.group
+                artifactId = 'CircleProgress'
+                version = project.version
+
+                pom {
+                    name = 'CircleProgress'
+                    description = 'Three kinds of circular progress views for Android: DonutProgress, CircleProgress, ArcProgress'
+                    url = 'https://github.com/happydog-intj/CircleProgress'
+                    licenses {
+                        license {
+                            name = 'WTFPL'
+                            url = 'http://www.wtfpl.net/txt/copying/'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'lzyzsd'
+                            name = 'Bruce Lee'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:github.com/happydog-intj/CircleProgress.git'
+                        url = 'https://github.com/happydog-intj/CircleProgress'
+                    }
+                }
+            }
+        }
+    }
 }

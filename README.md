@@ -1,4 +1,5 @@
 [![Android Arsenal](https://img.shields.io/badge/Android+Arsenal-CircleProgress-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1130)
+[![](https://jitpack.io/v/happydog-intj/CircleProgress.svg)](https://jitpack.io/#happydog-intj/CircleProgress)
 
 inspired from
 [https://github.com/daimajia/NumberProgressBar](https://github.com/daimajia/NumberProgressBar)
@@ -17,22 +18,23 @@ and CleanMaster
 
 ## Usage
 
-please use jitpack
+Add JitPack repository to your root `settings.gradle`:
 
-```
-    allprojects {
-		repositories {
-			...
-			maven { url "https://jitpack.io" }
-		}
-	}
+```groovy
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
 ### Gradle
 
 ```groovy
 dependencies {
-    compile 'com.github.lzyzsd:circleprogress:1.2.4'
+    implementation 'com.github.happydog-intj:CircleProgress:v2.0.0'
 }
 ```
 
@@ -166,6 +168,17 @@ or
 run `gradlew.bat assembleDebug` (Windows)
 
 ### Changes
+
+version 2.0.0:
+- Migrate to AndroidX (minSdk raised to 21)
+- Upgrade to AGP 8.x / Gradle 8.x / compileSdk 35
+- Replace ArcProgress busy-loop animation with ValueAnimator
+- Change CircleProgress progress type from int to float
+- Add accessibility support (screen reader) to all views
+- Fix Paint object recreation on every invalidate
+- Move DonutProgress RectF calculation from onDraw to onSizeChanged
+- Fix duplicate attribute reads and wrong Bundle type in DonutProgress
+- Publish via JitPack (maven-publish)
 
 version 1.1.0: add bottom text to DonutProgressView
 
