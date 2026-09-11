@@ -216,8 +216,22 @@ public class CircleProgress extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        rectF.set(0, 0, MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+        int width = measure(widthMeasureSpec);
+        int height = measure(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+        rectF.set(0, 0, width, height);
+    }
+
+    private int measure(int measureSpec) {
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+        if (mode == MeasureSpec.EXACTLY) {
+            return size;
+        } else if (mode == MeasureSpec.AT_MOST) {
+            return Math.min(min_size, size);
+        } else {
+            return min_size;
+        }
     }
 
     @Override protected void onDraw(Canvas canvas) {

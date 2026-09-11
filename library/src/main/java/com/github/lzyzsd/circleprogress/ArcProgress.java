@@ -316,12 +316,25 @@ public class ArcProgress extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        rectF.set(strokeWidth / 2f, strokeWidth / 2f, width - strokeWidth / 2f, MeasureSpec.getSize(heightMeasureSpec) - strokeWidth / 2f);
+        int width = measure(widthMeasureSpec);
+        int height = measure(heightMeasureSpec);
+        setMeasuredDimension(width, height);
+        rectF.set(strokeWidth / 2f, strokeWidth / 2f, width - strokeWidth / 2f, height - strokeWidth / 2f);
         float radius = width / 2f;
         float angle = (360 - arcAngle) / 2f;
         arcBottomHeight = radius * (float) (1 - Math.cos(angle / 180 * Math.PI));
+    }
+
+    private int measure(int measureSpec) {
+        int mode = MeasureSpec.getMode(measureSpec);
+        int size = MeasureSpec.getSize(measureSpec);
+        if (mode == MeasureSpec.EXACTLY) {
+            return size;
+        } else if (mode == MeasureSpec.AT_MOST) {
+            return Math.min(min_size, size);
+        } else {
+            return min_size;
+        }
     }
 
     @Override

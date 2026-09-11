@@ -3,6 +3,7 @@ package com.github.lzyzsd.circleprogress;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.View;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -222,5 +223,43 @@ public class CircleProgressTest {
     public void restoreInstanceState_withNonBundleState_doesNotCrash() {
         // Should handle gracefully
         view.onRestoreInstanceState(null);
+    }
+
+    // --- onMeasure ---
+
+    @Test
+    public void onMeasure_exactly_usesExactSize() {
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY);
+        view.measure(widthSpec, heightSpec);
+        assertEquals(300, view.getMeasuredWidth());
+        assertEquals(300, view.getMeasuredHeight());
+    }
+
+    @Test
+    public void onMeasure_atMost_clampsToMinSize() {
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(800, View.MeasureSpec.AT_MOST);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(800, View.MeasureSpec.AT_MOST);
+        view.measure(widthSpec, heightSpec);
+        assertTrue(view.getMeasuredWidth() <= 800);
+        assertTrue(view.getMeasuredHeight() <= 800);
+    }
+
+    @Test
+    public void onMeasure_atMost_smallConstraint_clampsToConstraint() {
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(50, View.MeasureSpec.AT_MOST);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(50, View.MeasureSpec.AT_MOST);
+        view.measure(widthSpec, heightSpec);
+        assertEquals(50, view.getMeasuredWidth());
+        assertEquals(50, view.getMeasuredHeight());
+    }
+
+    @Test
+    public void onMeasure_unspecified_usesMinSize() {
+        int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        view.measure(widthSpec, heightSpec);
+        assertTrue(view.getMeasuredWidth() > 0);
+        assertTrue(view.getMeasuredHeight() > 0);
     }
 }
