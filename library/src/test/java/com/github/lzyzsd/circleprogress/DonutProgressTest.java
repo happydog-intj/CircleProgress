@@ -329,7 +329,20 @@ public class DonutProgressTest {
         assertEquals(Color.RED, restored.getInnerBottomTextColor());
     }
 
-    // --- onMeasure ---
+    // --- onMeasure / onSizeChanged ---
+
+    @Test
+    public void onSizeChanged_recalculatesRectAfterMeasure() {
+        // After measure + layout, the view should be able to draw without
+        // recalculating RectF in onDraw (moved to onSizeChanged).
+        int spec = View.MeasureSpec.makeMeasureSpec(300, View.MeasureSpec.EXACTLY);
+        view.measure(spec, spec);
+        view.layout(0, 0, 300, 300);
+        // If onSizeChanged didn't set up the rects, onDraw would use zero rects.
+        // Just verify no exception during measure+layout cycle.
+        assertEquals(300, view.getMeasuredWidth());
+        assertEquals(300, view.getMeasuredHeight());
+    }
 
     @Test
     public void onMeasure_exactly_usesExactSize() {

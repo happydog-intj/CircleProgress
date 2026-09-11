@@ -228,6 +228,7 @@ public class DonutProgress extends View
     {
         this.finishedStrokeWidth = finishedStrokeWidth;
         finishedPaint.setStrokeWidth(finishedStrokeWidth);
+        updateRectAngles(getWidth(), getHeight());
         this.invalidate();
     }
 
@@ -240,6 +241,7 @@ public class DonutProgress extends View
     {
         this.unfinishedStrokeWidth = unfinishedStrokeWidth;
         unfinishedPaint.setStrokeWidth(unfinishedStrokeWidth);
+        updateRectAngles(getWidth(), getHeight());
         this.invalidate();
     }
 
@@ -434,9 +436,21 @@ public class DonutProgress extends View
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
     {
         setMeasuredDimension(measure(widthMeasureSpec), measure(heightMeasureSpec));
+    }
 
-        //TODO calculate inner circle height and then position bottom text at the bottom (3/4)
-        innerBottomTextHeight = getHeight() - (getHeight() * 3) / 4;
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        super.onSizeChanged(w, h, oldw, oldh);
+        updateRectAngles(w, h);
+        innerBottomTextHeight = h - (h * 3) / 4;
+    }
+
+    private void updateRectAngles(int w, int h)
+    {
+        float delta = Math.max(finishedStrokeWidth, unfinishedStrokeWidth);
+        finishedOuterRect.set(delta, delta, w - delta, h - delta);
+        unfinishedOuterRect.set(delta, delta, w - delta, h - delta);
     }
 
     private int measure(int measureSpec)
@@ -463,16 +477,6 @@ public class DonutProgress extends View
     protected void onDraw(Canvas canvas)
     {
         super.onDraw(canvas);
-
-        float delta = Math.max(finishedStrokeWidth, unfinishedStrokeWidth);
-        finishedOuterRect.set(delta,
-                              delta,
-                              getWidth() - delta,
-                              getHeight() - delta);
-        unfinishedOuterRect.set(delta,
-                                delta,
-                                getWidth() - delta,
-                                getHeight() - delta);
 
         float innerCircleRadius = (getWidth() - Math
                 .min(finishedStrokeWidth, unfinishedStrokeWidth) + Math
