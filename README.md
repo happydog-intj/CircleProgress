@@ -9,7 +9,7 @@ and CleanMaster
 
 ###Demo
 
-![CircleProgress](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/circle_progress.gif)
+![CircleProgress](demos/circle_progress.png)
 
 ###Demo download [link](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/example.apk)
 
@@ -65,7 +65,7 @@ DonutProgress
         custom:donut_unfinished_stroke_width="15dp"/>
 ```
 
-![DonutProgress](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/donutprogress_demo.png)
+![DonutProgress](demos/donutprogress_demo.png)
 
 attrs for DonutProgress
 
@@ -97,7 +97,7 @@ CircleProgress
         custom:circle_progress="20"/>
 ```
 
-![CircleProgress](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/circleprogress_demo.png)
+![CircleProgress](demos/circleprogress_demo.png)
 
 attrs for CircleProgress
 
@@ -127,7 +127,7 @@ ArcProgress
         custom:arc_bottom_text="MEMORY"/>
 ```
 
-![ArcProgress](https://raw.githubusercontent.com/lzyzsd/CircleProgress/master/demos/arcprogress_demo.png)
+![ArcProgress](demos/arcprogress_demo.png)
 
 attrs for ArchProgress
 

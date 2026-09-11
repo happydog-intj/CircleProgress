@@ -34,6 +34,10 @@
                 android:name=".ArcInFragment"
                 android:label="@string/title_activity_arc_in_fragment">
         </activity>
+        <activity
+                android:name=".CentralTextExampleActivity"
+                android:label="Central Text Example">
+        </activity>
     </application>
 
 </manifest>
