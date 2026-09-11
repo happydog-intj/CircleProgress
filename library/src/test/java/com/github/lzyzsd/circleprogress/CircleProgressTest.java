@@ -29,7 +29,7 @@ public class CircleProgressTest {
 
     @Test
     public void defaultProgress_isZero() {
-        assertEquals(0, view.getProgress());
+        assertEquals(0f, view.getProgress(), 0.01f);
     }
 
     @Test
@@ -67,14 +67,20 @@ public class CircleProgressTest {
     @Test
     public void setProgress_updatesValue() {
         view.setProgress(50);
-        assertEquals(50, view.getProgress());
+        assertEquals(50f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setProgress_floatValue_isPreserved() {
+        view.setProgress(33.5f);
+        assertEquals(33.5f, view.getProgress(), 0.01f);
     }
 
     @Test
     public void setProgress_exceedingMax_wrapsAround() {
         view.setMax(100);
         view.setProgress(150);
-        assertEquals(50, view.getProgress());
+        assertEquals(50f, view.getProgress(), 0.01f);
     }
 
     @Test
@@ -82,13 +88,13 @@ public class CircleProgressTest {
         view.setMax(100);
         view.setProgress(100);
         // progress > max is false, so no modulo
-        assertEquals(100, view.getProgress());
+        assertEquals(100f, view.getProgress(), 0.01f);
     }
 
     @Test
     public void setProgress_zero_stays() {
         view.setProgress(0);
-        assertEquals(0, view.getProgress());
+        assertEquals(0f, view.getProgress(), 0.01f);
     }
 
     // --- setMax / getMax ---
@@ -136,6 +142,14 @@ public class CircleProgressTest {
         view.setPrefixText("★");
         view.setSuffixText("%");
         assertEquals("★75%", view.getDrawText());
+    }
+
+    @Test
+    public void getDrawText_withFloatProgress() {
+        view.setProgress(75.5f);
+        view.setPrefixText("");
+        view.setSuffixText("%");
+        assertEquals("75.5%", view.getDrawText());
     }
 
     @Test
@@ -224,7 +238,7 @@ public class CircleProgressTest {
         CircleProgress restored = new CircleProgress(RuntimeEnvironment.getApplication());
         restored.onRestoreInstanceState(state);
 
-        assertEquals(65, restored.getProgress());
+        assertEquals(65f, restored.getProgress(), 0.01f);
         assertEquals(200, restored.getMax());
         assertEquals(Color.MAGENTA, restored.getTextColor());
         assertEquals(32.0f, restored.getTextSize(), 0.01f);
