@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.core.content.res.ResourcesCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -403,6 +403,7 @@ public class ArcProgress extends View {
             setProgress(bundle.getFloat(INSTANCE_PROGRESS));
             finishedStrokeColor = bundle.getInt(INSTANCE_FINISHED_STROKE_COLOR);
             unfinishedStrokeColor = bundle.getInt(INSTANCE_UNFINISHED_STROKE_COLOR);
+            arcAngle = bundle.getFloat(INSTANCE_ARC_ANGLE);
             suffixText = bundle.getString(INSTANCE_SUFFIX);
             initPainters();
             super.onRestoreInstanceState(bundle.getParcelable(INSTANCE_STATE));

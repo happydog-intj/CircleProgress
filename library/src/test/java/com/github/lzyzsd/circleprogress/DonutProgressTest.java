@@ -1,0 +1,289 @@
+package com.github.lzyzsd.circleprogress;
+
+import android.graphics.Color;
+import android.os.Parcelable;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+
+import static org.junit.Assert.*;
+
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 33)
+public class DonutProgressTest {
+
+    private DonutProgress view;
+
+    @Before
+    public void setUp() {
+        view = new DonutProgress(RuntimeEnvironment.getApplication());
+    }
+
+    // --- Default values ---
+
+    @Test
+    public void defaultProgress_isZero() {
+        assertEquals(0f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void defaultMax_is100() {
+        assertEquals(100, view.getMax());
+    }
+
+    @Test
+    public void defaultSuffixText_isPercent() {
+        assertEquals("%", view.getSuffixText());
+    }
+
+    @Test
+    public void defaultPrefixText_isEmpty() {
+        assertEquals("", view.getPrefixText());
+    }
+
+    @Test
+    public void defaultShowText_isTrue() {
+        assertTrue(view.isShowText());
+    }
+
+    @Test
+    public void defaultFinishedColor_isBlue() {
+        assertEquals(Color.rgb(66, 145, 241), view.getFinishedStrokeColor());
+    }
+
+    @Test
+    public void defaultUnfinishedColor_isGray() {
+        assertEquals(Color.rgb(204, 204, 204), view.getUnfinishedStrokeColor());
+    }
+
+    @Test
+    public void defaultTextColor_isBlue() {
+        assertEquals(Color.rgb(66, 145, 241), view.getTextColor());
+    }
+
+    @Test
+    public void defaultInnerBackgroundColor_isTransparent() {
+        assertEquals(Color.TRANSPARENT, view.getInnerBackgroundColor());
+    }
+
+    @Test
+    public void defaultStartingDegree_isZero() {
+        assertEquals(0, view.getStartingDegree());
+    }
+
+    // --- setProgress / getProgress ---
+
+    @Test
+    public void setProgress_updatesValue() {
+        view.setProgress(50);
+        assertEquals(50f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setProgress_floatValue_isPreserved() {
+        view.setProgress(33.5f);
+        assertEquals(33.5f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setProgress_exceedingMax_wrapsAround() {
+        view.setMax(100);
+        view.setProgress(150);
+        assertEquals(50f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setProgress_atMax_staysAtMax() {
+        view.setMax(100);
+        view.setProgress(100);
+        assertEquals(100f, view.getProgress(), 0.01f);
+    }
+
+    // --- setMax / getMax ---
+
+    @Test
+    public void setMax_positiveValue_updates() {
+        view.setMax(500);
+        assertEquals(500, view.getMax());
+    }
+
+    @Test
+    public void setMax_zeroValue_ignored() {
+        view.setMax(100);
+        view.setMax(0);
+        assertEquals(100, view.getMax());
+    }
+
+    @Test
+    public void setMax_negativeValue_ignored() {
+        view.setMax(100);
+        view.setMax(-1);
+        assertEquals(100, view.getMax());
+    }
+
+    // --- Text ---
+
+    @Test
+    public void setText_customText_isRetrievable() {
+        view.setText("Done");
+        assertEquals("Done", view.getText());
+    }
+
+    @Test
+    public void defaultText_isNull() {
+        assertNull(view.getText());
+    }
+
+    // --- setDonut_progress ---
+
+    @Test
+    public void setDonut_progress_parsesStringToInt() {
+        view.setDonut_progress("75");
+        assertEquals(75f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setDonut_progress_emptyString_doesNotCrash() {
+        view.setProgress(50);
+        view.setDonut_progress("");
+        // Should remain unchanged
+        assertEquals(50f, view.getProgress(), 0.01f);
+    }
+
+    @Test
+    public void setDonut_progress_nullString_doesNotCrash() {
+        view.setProgress(50);
+        view.setDonut_progress(null);
+        assertEquals(50f, view.getProgress(), 0.01f);
+    }
+
+    // --- Stroke width ---
+
+    @Test
+    public void setFinishedStrokeWidth_updatesValue() {
+        view.setFinishedStrokeWidth(20.0f);
+        assertEquals(20.0f, view.getFinishedStrokeWidth(), 0.01f);
+    }
+
+    @Test
+    public void setUnfinishedStrokeWidth_updatesValue() {
+        view.setUnfinishedStrokeWidth(15.0f);
+        assertEquals(15.0f, view.getUnfinishedStrokeWidth(), 0.01f);
+    }
+
+    // --- Color setters ---
+
+    @Test
+    public void setFinishedStrokeColor_updatesValue() {
+        view.setFinishedStrokeColor(Color.RED);
+        assertEquals(Color.RED, view.getFinishedStrokeColor());
+    }
+
+    @Test
+    public void setUnfinishedStrokeColor_updatesValue() {
+        view.setUnfinishedStrokeColor(Color.GREEN);
+        assertEquals(Color.GREEN, view.getUnfinishedStrokeColor());
+    }
+
+    @Test
+    public void setTextColor_updatesValue() {
+        view.setTextColor(Color.YELLOW);
+        assertEquals(Color.YELLOW, view.getTextColor());
+    }
+
+    @Test
+    public void setInnerBackgroundColor_updatesValue() {
+        view.setInnerBackgroundColor(Color.LTGRAY);
+        assertEquals(Color.LTGRAY, view.getInnerBackgroundColor());
+    }
+
+    @Test
+    public void setInnerBottomTextColor_updatesValue() {
+        view.setInnerBottomTextColor(Color.BLUE);
+        assertEquals(Color.BLUE, view.getInnerBottomTextColor());
+    }
+
+    // --- Inner bottom text ---
+
+    @Test
+    public void setInnerBottomText_updatesValue() {
+        view.setInnerBottomText("Steps");
+        assertEquals("Steps", view.getInnerBottomText());
+    }
+
+    @Test
+    public void setInnerBottomTextSize_updatesValue() {
+        view.setInnerBottomTextSize(20.0f);
+        assertEquals(20.0f, view.getInnerBottomTextSize(), 0.01f);
+    }
+
+    // --- Starting degree ---
+
+    @Test
+    public void setStartingDegree_updatesValue() {
+        view.setStartingDegree(90);
+        assertEquals(90, view.getStartingDegree());
+    }
+
+    // --- Prefix/Suffix ---
+
+    @Test
+    public void setPrefixText_updatesValue() {
+        view.setPrefixText("$");
+        assertEquals("$", view.getPrefixText());
+    }
+
+    @Test
+    public void setSuffixText_updatesValue() {
+        view.setSuffixText(" km");
+        assertEquals(" km", view.getSuffixText());
+    }
+
+    // --- State save/restore ---
+
+    @Test
+    public void saveAndRestoreInstanceState_preservesAllFields() {
+        view.setProgress(80);
+        view.setMax(200);
+        view.setTextColor(Color.MAGENTA);
+        view.setTextSize(28.0f);
+        view.setFinishedStrokeColor(Color.CYAN);
+        view.setUnfinishedStrokeColor(Color.DKGRAY);
+        view.setFinishedStrokeWidth(12.0f);
+        view.setUnfinishedStrokeWidth(8.0f);
+        view.setInnerBackgroundColor(Color.LTGRAY);
+        view.setStartingDegree(45);
+        view.setPrefixText("PRE");
+        view.setSuffixText("SUF");
+        view.setText("custom");
+        view.setInnerBottomText("bottom");
+        view.setInnerBottomTextSize(14.0f);
+        view.setInnerBottomTextColor(Color.RED);
+
+        Parcelable state = view.onSaveInstanceState();
+
+        DonutProgress restored = new DonutProgress(RuntimeEnvironment.getApplication());
+        restored.onRestoreInstanceState(state);
+
+        assertEquals(80f, restored.getProgress(), 0.01f);
+        assertEquals(200, restored.getMax());
+        assertEquals(Color.MAGENTA, restored.getTextColor());
+        assertEquals(28.0f, restored.getTextSize(), 0.01f);
+        assertEquals(Color.CYAN, restored.getFinishedStrokeColor());
+        assertEquals(Color.DKGRAY, restored.getUnfinishedStrokeColor());
+        assertEquals(12.0f, restored.getFinishedStrokeWidth(), 0.01f);
+        assertEquals(8.0f, restored.getUnfinishedStrokeWidth(), 0.01f);
+        assertEquals(Color.LTGRAY, restored.getInnerBackgroundColor());
+        assertEquals(45, restored.getStartingDegree());
+        assertEquals("PRE", restored.getPrefixText());
+        assertEquals("SUF", restored.getSuffixText());
+        assertEquals("custom", restored.getText());
+        assertEquals("bottom", restored.getInnerBottomText());
+        assertEquals(14.0f, restored.getInnerBottomTextSize(), 0.01f);
+        assertEquals(Color.RED, restored.getInnerBottomTextColor());
+    }
+}

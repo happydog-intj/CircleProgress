@@ -11,7 +11,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -92,20 +92,19 @@ public class MyActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
-        {
-            case R.id.action_viewpager:
-                startActivity(new Intent(this, ViewPagerActivity.class));
-                return true;
-            case R.id.action_list:
-                startActivity(new Intent(this, ItemListActivity.class));
-                return true;
-            case R.id.action_arch_tab:
-                startActivity(new Intent(this, ArcInFragment.class));
-                return true;
-            case R.id.action_change_central_text:
-                startActivity(new Intent(this, CentralTextExampleActivity.class));
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.action_viewpager) {
+            startActivity(new Intent(this, ViewPagerActivity.class));
+            return true;
+        } else if (id == R.id.action_list) {
+            startActivity(new Intent(this, ItemListActivity.class));
+            return true;
+        } else if (id == R.id.action_arch_tab) {
+            startActivity(new Intent(this, ArcInFragment.class));
+            return true;
+        } else if (id == R.id.action_change_central_text) {
+            startActivity(new Intent(this, CentralTextExampleActivity.class));
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -3,15 +3,12 @@ apply plugin: 'com.android.library'
 version = "1.2.4"
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    namespace 'com.github.lzyzsd.circleprogress'
+    compileSdk 35
 
     defaultConfig {
-        minSdkVersion 14
-        //noinspection OldTargetApi
-        targetSdkVersion 26
-        versionCode 5
-        versionName version
+        minSdk 21
+        targetSdk 35
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -21,8 +18,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    dependencies {
-        compile 'com.android.support:appcompat-v7:27.0.1'
+    buildFeatures {
+        buildConfig true
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+    testImplementation 'androidx.test:core:1.6.1'
 }
