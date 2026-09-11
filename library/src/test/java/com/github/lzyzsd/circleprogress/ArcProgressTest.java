@@ -62,6 +62,13 @@ public class ArcProgressTest {
         assertEquals(288f, view.getArcAngle(), 0.01f);
     }
 
+    @Test
+    public void defaultTextSize_isSp40() {
+        // default_text_size should be sp2px(40), not sp2px(18)
+        float expectedSize = Utils.sp2px(RuntimeEnvironment.getApplication().getResources(), 40);
+        assertEquals(expectedSize, view.getTextSize(), 0.01f);
+    }
+
     // --- setProgress / getProgress ---
 
     @Test

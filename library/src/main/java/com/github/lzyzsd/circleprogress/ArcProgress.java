@@ -88,7 +88,6 @@ public class ArcProgress extends View {
     public ArcProgress(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        default_text_size = Utils.sp2px(getResources(), 18);
         min_size = (int) Utils.dp2px(getResources(), 100);
         default_text_size = Utils.sp2px(getResources(), 40);
         default_suffix_text_size = Utils.sp2px(getResources(), 15);
